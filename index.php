@@ -1,6 +1,17 @@
 <?php
 require_once 'koneksi.php';
 require_once 'sidebar.php';
+
+$query = null;
+$total_dosen = 0;
+
+if ($is_logged_in && $conn) {
+    $query = mysqli_query($conn, "SELECT * FROM tbl_dosen ORDER BY nid ASC");
+
+    if ($query) {
+        $total_dosen = mysqli_num_rows($query);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,7 +147,7 @@ require_once 'sidebar.php';
                     </div>
                     <div class="text-xs text-gray-400 mb-1">Dosen Tetap & LB</div>
                     <div class="flex items-end justify-between">
-                        <span class="text-2xl font-bold">86</span>
+                        <span class="text-2xl font-bold"><?php echo $total_dosen; ?></span>
                         <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">Tetap</span>
                     </div>
                 </div>
