@@ -281,7 +281,7 @@ if ($is_logged_in && $conn) {
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                 <div class="border border-gray-200 rounded-lg p-5 bg-white">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-sm font-medium text-gray-600">Total Nilai</span>
+                        <span class="text-sm font-medium text-gray-600">Total Mahasiswa</span>
                         <div class="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500"><i class="fa-solid fa-list-check"></i></div>
                     </div>
                     <div class="text-xs text-gray-400 mb-1">Data pada tabel tbl_nilai</div>
@@ -294,7 +294,7 @@ if ($is_logged_in && $conn) {
                 <div class="border border-gray-200 rounded-lg p-5 bg-white">
                     <div class="flex justify-between items-start mb-4">
                         <span class="text-sm font-medium text-gray-600">Rata-rata Akhir</span>
-                        <div class="w-8 h-8 rounded bg-green-50 flex items-center justify-center text-green-500"><i class="fa-solid fa-chart-simple"></i></div>
+                        <div class="w-8 h-8 rounded bg-green-50 flex items-center justify-center text-green-500"><i class="fa-solid fa-chart-line"></i></div>
                     </div>
                     <div class="text-xs text-gray-400 mb-1">Nilai keseluruhan</div>
                     <div class="flex items-end justify-between">
@@ -327,7 +327,18 @@ if ($is_logged_in && $conn) {
                     </div>
                 </div>
             </div>
-
+            <div class="flex-1 flex flex-col min-h-0">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-base font-semibold text-gray-900">Daftar Nilai</h2>
+                        <p class="text-xs text-gray-500">Data Nilai Mahasiswa dari database</p>
+                    </div>
+                    <div class="flex gap-2 border border-gray-200 rounded-md overflow-hidden bg-white">
+                        <button type="button" onclick="openExportModal({table: 'tbl_nilai', cols: 'nim,tugas,uts,uas,akhir', filename: 'nilai_list'})" class="px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-r border-gray-200">
+                            <i class="fa-solid fa-file-export text-gray-400"></i> Export
+                        </button>
+                    </div>
+                </div>
             <div class="flex-1 min-h-0 border border-gray-200 rounded-lg overflow-auto bg-white">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
