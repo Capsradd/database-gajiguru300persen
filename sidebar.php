@@ -3,7 +3,7 @@
         <!-- Logo -->
         <div class="h-16 flex items-center px-6 border-b border-gray-200 justify-between">
             <div class="flex items-center gap-2 font-bold text-xl">
-                <img src="logo.png" alt="Logo" class="w-6 h-6">
+                <img src="./image/logo.png" alt="Logo" class="w-6 h-6">
                 Unidb
             </div>
             <button class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-bars-staggered"></i></button>
@@ -37,7 +37,7 @@
                 <a href="dopem.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
                     <i class="fa-solid fa-user-tie w-4 text-center"></i> Dopem
                 </a>
-                <a href="404.php?target=anggota.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
+                <a href="anggota.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
                     <i class="fa-solid fa-users w-4 text-center"></i> Anggota
                 </a>
                 <a href="console.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
