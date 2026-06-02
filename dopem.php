@@ -208,7 +208,7 @@ if ($is_logged_in && $conn) {
                     </button>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 text-gray-700 font-medium whitespace-nowrap">
+                    <button onclick="window.location.reload()" class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 text-gray-700 font-medium whitespace-nowrap">
                         <i class="fa-solid fa-rotate-right text-gray-400"></i> Refresh
                     </button>
                     <button type="button" onclick="openAddModal()" class="flex items-center gap-2 px-4 py-1.5 text-sm bg-black text-white rounded-md hover:bg-gray-800 font-medium whitespace-nowrap">
