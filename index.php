@@ -4,12 +4,22 @@ require_once 'sidebar.php';
 
 $query = null;
 $total_dosen = 0;
+$rata_akhir = null;
 
 if ($is_logged_in && $conn) {
     $query = mysqli_query($conn, "SELECT * FROM tbl_dosen ORDER BY nid ASC");
 
     if ($query) {
         $total_dosen = mysqli_num_rows($query);
+    }
+
+    $table_check = mysqli_query($conn, "SHOW TABLES LIKE 'tbl_nilai'");
+    if ($table_check && mysqli_num_rows($table_check) > 0) {
+        $summary = mysqli_query($conn, 'SELECT AVG(akhir) AS rata_akhir FROM tbl_nilai');
+        if ($summary) {
+            $summary_row = mysqli_fetch_assoc($summary);
+            $rata_akhir = $summary_row['rata_akhir'] ?? null;
+        }
     }
 }
 ?>
@@ -168,15 +178,13 @@ if ($is_logged_in && $conn) {
                 <!-- Stat Card 4 -->
                 <div class="border border-gray-200 rounded-lg p-5 bg-white">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-sm font-medium text-gray-600">Rata-rata IPK</span>
-                        <div class="w-8 h-8 rounded bg-green-50 flex items-center justify-center text-green-500">
-                            <i class="fa-solid fa-chart-line"></i>
-                        </div>
+                        <span class="text-sm font-medium text-gray-600">Rata-rata Nilai Akhir</span>
+                        <div class="w-8 h-8 rounded bg-green-50 flex items-center justify-center text-green-500"><i class="fa-solid fa-chart-line"></i></div>
                     </div>
-                    <div class="text-xs text-gray-400 mb-1">Indeks Prestasi Kumulatif</div>
+                    <div class="text-xs text-gray-400 mb-1">Nilai keseluruhan</div>
                     <div class="flex items-end justify-between">
-                        <span class="text-2xl font-bold">3.24</span>
-                        <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-green-100 text-green-700">+0.12</span>
+                        <span class="text-2xl font-bold"><?php echo $rata_akhir !== null ? number_format((float) $rata_akhir, 2) : '-'; ?></span>
+                        <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-green-100 text-green-700">Summary</span>
                     </div>
                 </div>
             </div>
