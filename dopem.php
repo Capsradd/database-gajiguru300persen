@@ -220,7 +220,7 @@ if ($is_logged_in && $conn) {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 <div class="border border-gray-200 rounded-lg p-5 bg-white">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-sm font-medium text-gray-600">Total Dopem</span>
+                        <span class="text-sm font-medium text-gray-600">Total Mahasiswa Naungan</span>
                         <div class="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500">
                             <i class="fa-solid fa-user-tie"></i>
                         </div>
