@@ -222,7 +222,7 @@ if ($is_logged_in && $conn) {
                     <div class="text-xs text-gray-400 mb-1">Kurikulum Aktif</div>
                     <div class="flex items-end justify-between">
                         <span class="text-2xl font-bold"><?php echo $total_matakuliah; ?></span>
-                        <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">Semua Prodi</span>
+                        <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">Prodi Ilmu Komputer</span>
                     </div>
                 </div>
                 <!-- Stat Card 4 -->
