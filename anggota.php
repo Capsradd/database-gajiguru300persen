@@ -201,7 +201,7 @@ if ($is_logged_in && $conn) {
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-circle-question"></i></button>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-bell"></i></button>
                 <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden border border-gray-300 ml-2 cursor-pointer">
-                    <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="w-full h-full object-cover">
+                    <img src="https://ui-avatars.com/api/?name=RaddinPratma&background=e5e7eb&color=1f2937" alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
         </header>
@@ -295,7 +295,7 @@ if ($is_logged_in && $conn) {
                     </div>
                     <div class="text-xs text-gray-400 mb-1">Monitoring kontribusi tiap anggota</div>
                     <div class="flex items-end justify-between">
-                        <span class="text-2xl font-bold">Tersedia</span>
+                        <span class="text-2xl font-bold">Selesai</span>
                         <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-green-100 text-green-700">Ready</span>
                     </div>
                 </div>
@@ -321,7 +321,7 @@ if ($is_logged_in && $conn) {
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h2 class="text-base font-semibold text-gray-900">Daftar Anggota Kelompok</h2>
-                        <p class="text-xs text-gray-500">Data anggota dan pembagian tugas pada tabel anggota</p>
+                        <p class="text-xs text-gray-500">Data anggota DB_GajiGuru300%</p>
                     </div>
                     <div class="flex gap-2 border border-gray-200 rounded-md overflow-hidden bg-white">
                         <?php if ($anggota_table_exists): ?>
