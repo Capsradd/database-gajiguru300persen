@@ -12,7 +12,7 @@ if ($is_logged_in && $conn) {
         $namamk = trim($_POST['namamk'] ?? '');
         $sks = trim($_POST['sks'] ?? '');
 
-        $stmt = $conn->prepare('INSERT INTO tbl_matkul (kodemk, namamk, sks) VALUES (?, ?, ?)');
+        $stmt = $conn->prepare('INSERT INTO tbl_matakuliah (kodemk, namamk, sks) VALUES (?, ?, ?)');
 
         if ($stmt) {
             $stmt->bind_param('sss', $kodemk, $namamk, $sks);
@@ -30,7 +30,7 @@ if ($is_logged_in && $conn) {
         $namamk = trim($_POST['namamk'] ?? '');
         $sks = trim($_POST['sks'] ?? '');
 
-        $stmt = $conn->prepare('UPDATE tbl_matkul SET namamk = ?, sks = ? WHERE kodemk = ?');
+        $stmt = $conn->prepare('UPDATE tbl_matakuliah SET namamk = ?, sks = ? WHERE kodemk = ?');
 
         if ($stmt) {
             $stmt->bind_param('sss', $namamk, $sks, $kodemk);
@@ -46,7 +46,7 @@ if ($is_logged_in && $conn) {
     if (isset($_POST['delete_matkul'])) {
         $kodemk = trim($_POST['kodemk'] ?? '');
 
-        $stmt = $conn->prepare('DELETE FROM tbl_matkul WHERE kodemk = ?');
+        $stmt = $conn->prepare('DELETE FROM tbl_matakuliah WHERE kodemk = ?');
 
         if ($stmt) {
             $stmt->bind_param('s', $kodemk);
@@ -61,7 +61,7 @@ if ($is_logged_in && $conn) {
 
     $edit_kodemk = trim($_GET['edit'] ?? '');
     if ($edit_kodemk !== '') {
-        $stmt = $conn->prepare('SELECT kodemk, namamk, sks FROM tbl_matkul WHERE kodemk = ? LIMIT 1');
+        $stmt = $conn->prepare('SELECT kodemk, namamk, sks FROM tbl_matakuliah WHERE kodemk = ? LIMIT 1');
         if ($stmt) {
             $stmt->bind_param('s', $edit_kodemk);
             $stmt->execute();
@@ -74,7 +74,7 @@ if ($is_logged_in && $conn) {
 
     $delete_kodemk = trim($_GET['delete'] ?? '');
     if ($delete_kodemk !== '') {
-        $stmt = $conn->prepare('SELECT kodemk, namamk, sks FROM tbl_matkul WHERE kodemk = ? LIMIT 1');
+        $stmt = $conn->prepare('SELECT kodemk, namamk, sks FROM tbl_matakuliah WHERE kodemk = ? LIMIT 1');
         if ($stmt) {
             $stmt->bind_param('s', $delete_kodemk);
             $stmt->execute();
@@ -90,7 +90,7 @@ $query = null;
 $total_matkul = 0;
 
 if ($is_logged_in && $conn) {
-    $query = mysqli_query($conn, 'SELECT * FROM tbl_matkul ORDER BY kodemk ASC');
+    $query = mysqli_query($conn, 'SELECT * FROM tbl_matakuliah ORDER BY kodemk ASC');
 
     if ($query) {
         $total_matkul = mysqli_num_rows($query);
@@ -272,7 +272,7 @@ if ($is_logged_in && $conn) {
                         <p class="text-xs text-gray-500">Kelola data mata kuliah yang tersimpan di database</p>
                     </div>
                     <div class="flex gap-2 border border-gray-200 rounded-md overflow-hidden bg-white">
-                        <button type="button" onclick="openExportModal({table: 'tbl_matkul', cols: 'kodemk,namamk,sks', filename: 'matkul_list'})" class="px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-r border-gray-200">
+                        <button type="button" onclick="openExportModal({table: 'tbl_matakuliah', cols: 'kodemk,namamk,sks', filename: 'matkul_list'})" class="px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-r border-gray-200">
                             <i class="fa-solid fa-file-export text-gray-400"></i> Export
                         </button>
                     </div>
