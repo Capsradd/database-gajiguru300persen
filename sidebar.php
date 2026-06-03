@@ -28,7 +28,7 @@
                 <a href="dosen.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
                     <i class="fa-solid fa-chalkboard-user w-4 text-center"></i> Dosen
                 </a>
-                <a href="404.php?target=matkul.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
+                <a href="matkul.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
                     <i class="fa-solid fa-book-open w-4 text-center"></i> Mata Kuliah
                 </a>
                 <a href="nilai.php" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
