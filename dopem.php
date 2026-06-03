@@ -168,12 +168,12 @@ if ($is_logged_in && $conn) {
             <div class="flex items-center gap-4">
                 <div class="relative">
                     <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
-                    <input type="text" placeholder="Search Dopem" class="bg-gray-50 text-sm rounded-md pl-9 pr-4 py-2 w-64 focus:outline-none border border-gray-200">
+                    <input type="text" id="searchInput" placeholder="Search Dopem" class="bg-gray-50 text-sm rounded-md pl-9 pr-4 py-2 w-64 focus:outline-none border border-gray-200">
                 </div>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-circle-question"></i></button>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-bell"></i></button>
                 <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden border border-gray-300 ml-2 cursor-pointer">
-                    <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="w-full h-full object-cover">
+                    <img src="https://ui-avatars.com/api/?name=RaddinPratma&background=e5e7eb&color=1f2937" alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
         </header>
@@ -294,7 +294,7 @@ if ($is_logged_in && $conn) {
                             <?php if ($query && mysqli_num_rows($query) > 0): ?>
                                 <?php $no = 1; ?>
                                 <?php while ($row = mysqli_fetch_assoc($query)): ?>
-                                <tr class="hover:bg-gray-50">
+                                <tr class="hover:bg-gray-50 searchable-row">
                                     <td class="py-3 px-4 text-center text-gray-500"><?php echo $no++; ?></td>
                                     <td class="py-3 px-4 text-gray-500 font-mono text-xs"><?php echo htmlspecialchars($row['nim']); ?></td>
                                     <td class="py-3 px-4 text-gray-500 font-mono text-xs"><?php echo htmlspecialchars($row['nid']); ?></td>
@@ -310,13 +310,15 @@ if ($is_logged_in && $conn) {
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>
-                            <?php else: ?>
-                                <tr>
+                                    <tr id="noResultRow" class="hidden">
                                     <td colspan="4" class="py-12 text-center text-gray-400">
-                                        <i class="fa-solid fa-folder-open text-4xl mb-3 text-gray-300"></i>
-                                        <p class="text-sm font-medium text-gray-500">Belum ada data dopem.</p>
+                                        <i class="fa-solid fa-magnifying-glass text-4xl mb-3 text-gray-300"></i>
+                                        <p class="text-sm font-medium text-gray-500">
+                                            Data dopem tidak ditemukan.
+                                        </p>
                                     </td>
                                 </tr>
+                            <?php else: ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -467,6 +469,36 @@ if ($is_logged_in && $conn) {
                 }
             });
         });
+
+        const searchInput = document.getElementById('searchInput');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const keyword = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.searchable-row');
+            const noResultRow = document.getElementById('noResultRow');
+
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+
+                if (text.includes(keyword)) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            if (noResultRow) {
+                noResultRow.classList.toggle(
+                    'hidden',
+                    visibleCount > 0 || keyword === ''
+                );
+            }
+        });
+    }
     </script>
 
 </body>

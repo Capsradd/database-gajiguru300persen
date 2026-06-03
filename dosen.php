@@ -168,12 +168,12 @@ if ($is_logged_in && $conn) {
             <div class="flex items-center gap-4">
                 <div class="relative">
                     <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
-                    <input type="text" placeholder="Search Dosen" class="bg-gray-50 text-sm rounded-md pl-9 pr-4 py-2 w-64 focus:outline-none border border-gray-200">
+                    <input type="text" id="searchInput" placeholder="Cari Dosen" class="bg-gray-50 text-sm rounded-md pl-9 pr-4 py-2 w-64 focus:outline-none border border-gray-200">
                 </div>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-circle-question"></i></button>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-bell"></i></button>
                 <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden border border-gray-300 ml-2 cursor-pointer">
-                    <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="w-full h-full object-cover">
+                    <img src="https://ui-avatars.com/api/?name=RaddinPratma&background=e5e7eb&color=1f2937" alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
         </header>
@@ -275,7 +275,7 @@ if ($is_logged_in && $conn) {
                 </div>
 
                 <div class="border border-gray-200 rounded-lg overflow-hidden bg-white mb-6">
-                    <table class="w-full text-left border-collapse text-sm">
+                    <table id="dosenTable" class="w-full text-left border-collapse text-sm">
                         <thead>
                             <tr class="border-b border-gray-200 bg-gray-50/50">
                                 <th class="font-medium text-gray-500 py-3 px-4 w-12 text-center">No</th>
@@ -288,15 +288,15 @@ if ($is_logged_in && $conn) {
                             <?php if ($query && mysqli_num_rows($query) > 0): ?>
                                 <?php $no = 1; ?>
                                 <?php while ($row = mysqli_fetch_assoc($query)): ?>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="py-3 px-4 text-center text-gray-500"><?php echo $no++; ?></td>
-                                    <td class="py-3 px-4 text-gray-500 font-mono text-xs"><?php echo htmlspecialchars($row['nid']); ?></td>
+                                <tr class="hover:bg-gray-50 dosen-row">
+                                    <td class="py-3 px-4 text-center text-gray-500 row-no"><?php echo $no++; ?></td>
+                                    <td class="py-3 px-4 text-gray-500 font-mono text-xs font-nid"><?php echo htmlspecialchars($row['nid']); ?></td>
                                     <td class="py-3 px-4">
                                         <div class="flex items-center gap-3">
                                             <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-600 uppercase">
                                                 <?php echo isset($row['namados'][0]) ? htmlspecialchars($row['namados'][0]) : '?'; ?>
                                             </div>
-                                            <span class="font-medium text-gray-900"><?php echo htmlspecialchars($row['namados']); ?></span>
+                                            <span class="font-medium text-gray-900 font-namados"><?php echo htmlspecialchars($row['namados']); ?></span>
                                         </div>
                                     </td>
                                     <td class="py-3 px-4 text-right">
@@ -319,6 +319,14 @@ if ($is_logged_in && $conn) {
                                     </td>
                                 </tr>
                             <?php endif; ?>
+                            <tr id="noResultRow" class="hidden">
+                            <td colspan="4" class="py-12 text-center text-gray-400">
+                                <i class="fa-solid fa-magnifying-glass text-4xl mb-3 text-gray-300"></i>
+                                <p class="text-sm font-medium text-gray-500">
+                                    Dosen tidak ditemukan.
+                                </p>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -468,6 +476,48 @@ if ($is_logged_in && $conn) {
                 }
             });
         });
+        document.getElementById('searchInput').addEventListener('input', function () {
+
+        const q = this.value.toLowerCase().trim();
+
+        const rows = document.querySelectorAll('#dosenTable tbody tr.dosen-row');
+        const noResultRow = document.getElementById('noResultRow');
+
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+
+            const nid = row.querySelector('.font-nid')
+                .textContent.toLowerCase();
+
+            const nama = row.querySelector('.font-namados')
+                .textContent.toLowerCase();
+
+            if (
+                nid.includes(q) ||
+                nama.includes(q)
+            ) {
+
+                row.classList.remove('hidden');
+                visibleCount++;
+
+                row.querySelector('.row-no').textContent = visibleCount;
+
+            } else {
+
+                row.classList.add('hidden');
+
+            }
+
+        });
+
+        if (visibleCount === 0 && rows.length > 0) {
+            noResultRow.classList.remove('hidden');
+        } else {
+            noResultRow.classList.add('hidden');
+        }
+
+    });
     </script>
     <?php require_once 'export-modal.php'; ?>
 </body>

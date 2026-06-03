@@ -89,12 +89,10 @@ if ($is_logged_in && $conn) {
 $query = null;
 $total_matkul = 0;
 
-if ($is_logged_in && $conn) {
-    $query = mysqli_query($conn, 'SELECT * FROM tbl_matakuliah ORDER BY kodemk ASC');
+$query = mysqli_query($conn, 'SELECT * FROM tbl_matakuliah ORDER BY kodemk ASC');
 
-    if ($query) {
-        $total_matkul = mysqli_num_rows($query);
-    }
+if ($query) {
+    $total_matkul = mysqli_num_rows($query);
 }
 ?>
 <!DOCTYPE html>
@@ -134,7 +132,7 @@ if ($is_logged_in && $conn) {
                     <p class="text-sm text-gray-500 mt-1">Gunakan kredensial MySQL/MariaDB kamu</p>
                 </div>
 
-                <?php if ($error_msg): ?>
+                <?php if (isset($error_msg) && $error_msg): ?>
                     <div class="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-5 border border-red-100 flex gap-2 items-start">
                         <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
                         <span><?php echo $error_msg; ?></span>
@@ -172,51 +170,57 @@ if ($is_logged_in && $conn) {
             <div class="flex items-center gap-4">
                 <div class="relative">
                     <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
-                    <input type="text" placeholder="Search Mata Kuliah" class="bg-gray-50 text-sm rounded-md pl-9 pr-4 py-2 w-64 focus:outline-none border border-gray-200">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Cari Mata Kuliah"
+                        class="bg-gray-50 text-sm rounded-md pl-9 pr-4 py-2 w-64 focus:outline-none border border-gray-200"
+                    >
                 </div>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-circle-question"></i></button>
                 <button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 border border-transparent"><i class="fa-regular fa-bell"></i></button>
                 <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden border border-gray-300 ml-2 cursor-pointer">
-                    <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="w-full h-full object-cover">
+                    <img src="https://ui-avatars.com/api/?name=RaddinPratma&background=e5e7eb&color=1f2937" alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
         </header>
 
-        <div class="flex-1 overflow-auto p-8">
+        <div class="flex-1 flex flex-col p-8 overflow-hidden min-h-0">
             <?php if ($status === 'added'): ?>
-                <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                    Data mata kuliah berhasil ditambahkan.
-                </div>
+            <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+                Data mata kuliah berhasil ditambahkan.
+            </div>
             <?php elseif ($status === 'updated'): ?>
-                <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                    Data mata kuliah berhasil diperbarui.
-                </div>
+            <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+                Data mata kuliah berhasil diperbarui.
+            </div>
             <?php elseif ($status === 'deleted'): ?>
-                <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                    Data mata kuliah berhasil dihapus.
-                </div>
+            <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+                Data mata kuliah berhasil dihapus.
+            </div>
             <?php elseif ($status === 'error'): ?>
-                <div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                    Proses gagal dijalankan.
-                </div>
+            <div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                Proses gagal dijalankan.
+            </div>
             <?php endif; ?>
 
             <div class="flex items-center justify-between mb-8">
                 <div class="flex items-center gap-3">
                     <button class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 text-gray-700 font-medium">
-                        <i class="fa-regular fa-building"></i> Fakultas
+                        <i class="fa-solid fa-graduation-cap"></i> Program Studi
                         <i class="fa-solid fa-chevron-down text-xs ml-1 text-gray-400"></i>
                     </button>
                     <button class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 text-gray-700 font-medium whitespace-nowrap">
-                        <i class="fa-solid fa-filter text-gray-400"></i> Semua Mata Kuliah <i class="fa-solid fa-chevron-down text-xs ml-1 text-gray-400"></i>
+                        <i class="fa-solid fa-filter text-gray-400"></i> Semua Matakuliah
+                        <i class="fa-solid fa-chevron-down text-xs ml-1 text-gray-400"></i>
                     </button>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 text-gray-700 font-medium whitespace-nowrap">
+                    <button onclick="window.location.reload()" class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 text-gray-700 font-medium whitespace-nowrap">
                         <i class="fa-solid fa-rotate-right text-gray-400"></i> Refresh
                     </button>
                     <button type="button" onclick="openAddModal()" class="flex items-center gap-2 px-4 py-1.5 text-sm bg-black text-white rounded-md hover:bg-gray-800 font-medium whitespace-nowrap">
-                        <i class="fa-solid fa-plus"></i> Tambah Mata Kuliah
+                        <i class="fa-solid fa-plus"></i> Tambah Matkul
                     </button>
                 </div>
             </div>
@@ -224,12 +228,12 @@ if ($is_logged_in && $conn) {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 <div class="border border-gray-200 rounded-lg p-5 bg-white">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-sm font-medium text-gray-600">Total Mata Kuliah</span>
+                        <span class="text-sm font-medium text-gray-600"><?php echo ($search !== '') ? 'Total Matakuliah' : 'Total Mata Kuliah'; ?></span>
                         <div class="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500">
-                            <i class="fa-solid fa-book-open"></i>
+                            <i class="fa-solid fa-book"></i>
                         </div>
                     </div>
-                    <div class="text-xs text-gray-400 mb-1">Data pada tabel tbl_matkul</div>
+                    <div class="text-xs text-gray-400 mb-1">Data pada tabel tbl_matakuliah</div>
                     <div class="flex items-end justify-between">
                         <span class="text-2xl font-bold"><?php echo number_format($total_matkul); ?></span>
                         <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">Aktif</span>
@@ -243,7 +247,7 @@ if ($is_logged_in && $conn) {
                             <i class="fa-solid fa-bolt"></i>
                         </div>
                     </div>
-                    <div class="text-xs text-gray-400 mb-1">Tambah atau ubah data mata kuliah</div>
+                    <div class="text-xs text-gray-400 mb-1">Kelola data kurikulum matkul</div>
                     <div class="flex items-end justify-between">
                         <span class="text-2xl font-bold">CRUD</span>
                         <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-green-100 text-green-700">Ready</span>
@@ -265,66 +269,64 @@ if ($is_logged_in && $conn) {
                 </div>
             </div>
 
-            <div class="mb-4">
+            <div class="flex-1 flex flex-col min-h-0">
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h2 class="text-base font-semibold text-gray-900">Daftar Mata Kuliah</h2>
-                        <p class="text-xs text-gray-500">Kelola data mata kuliah yang tersimpan di database</p>
-                    </div>
-                    <div class="flex gap-2 border border-gray-200 rounded-md overflow-hidden bg-white">
-                        <button type="button" onclick="openExportModal({table: 'tbl_matakuliah', cols: 'kodemk,namamk,sks', filename: 'matkul_list'})" class="px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-r border-gray-200">
-                            <i class="fa-solid fa-file-export text-gray-400"></i> Export
-                        </button>
+                        <p class="text-xs text-gray-500">Data kode, nama, dan SKS dari database</p>
                     </div>
                 </div>
 
-                <div class="border border-gray-200 rounded-lg overflow-hidden bg-white mb-6">
-                    <table class="w-full text-left border-collapse text-sm">
+                <div class="flex-1 min-h-0 border border-gray-200 rounded-lg overflow-auto bg-white">
+                    <table class="w-full text-left border-collapse text-sm" id="matkulTable">
                         <thead>
                             <tr class="border-b border-gray-200 bg-gray-50/50">
                                 <th class="font-medium text-gray-500 py-3 px-4 w-12 text-center">No</th>
-                                <th class="font-medium text-gray-500 py-3 px-4">Kode Mata Kuliah</th>
+                                <th class="font-medium text-gray-500 py-3 px-4">Kode MK</th>
                                 <th class="font-medium text-gray-500 py-3 px-4">Nama Mata Kuliah</th>
-                                <th class="font-medium text-gray-500 py-3 px-4">SKS</th>
+                                <th class="font-medium text-gray-500 py-3 px-4 w-20 text-center">SKS</th>
                                 <th class="font-medium text-gray-500 py-3 px-4 text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            <?php if ($query && mysqli_num_rows($query) > 0): ?>
+                            <?php if ($query && (($query instanceof mysqli_result && $query->num_rows > 0) || (is_object($query) && method_exists($query, 'num_rows') && $query->num_rows > 0) || mysqli_num_rows($query) > 0)): ?>
                                 <?php $no = 1; ?>
                                 <?php while ($row = mysqli_fetch_assoc($query)): ?>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="py-3 px-4 text-center text-gray-500"><?php echo $no++; ?></td>
-                                        <td class="py-3 px-4 text-gray-500 font-mono text-xs"><?php echo htmlspecialchars($row['kodemk']); ?></td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-600 uppercase">
-                                                    <?php echo isset($row['namamk'][0]) ? htmlspecialchars($row['namamk'][0]) : '?'; ?>
-                                                </div>
-                                                <span class="font-medium text-gray-900"><?php echo htmlspecialchars($row['namamk']); ?></span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4 text-gray-700"><?php echo htmlspecialchars($row['sks']); ?></td>
-                                        <td class="py-3 px-4 text-right">
-                                            <div class="inline-flex items-center gap-2">
-                                                <button type="button" data-kodemk="<?php echo htmlspecialchars($row['kodemk'], ENT_QUOTES); ?>" data-namamk="<?php echo htmlspecialchars($row['namamk'], ENT_QUOTES); ?>" data-sks="<?php echo htmlspecialchars($row['sks'], ENT_QUOTES); ?>" onclick="openEditModalFromButton(this)" class="px-3 py-1.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100">
-                                                    Edit
-                                                </button>
-                                                <button type="button" data-kodemk="<?php echo htmlspecialchars($row['kodemk'], ENT_QUOTES); ?>" data-namamk="<?php echo htmlspecialchars($row['namamk'], ENT_QUOTES); ?>" data-sks="<?php echo htmlspecialchars($row['sks'], ENT_QUOTES); ?>" onclick="openDeleteModalFromButton(this)" class="px-3 py-1.5 rounded-md text-xs font-medium bg-red-50 text-red-700 hover:bg-red-100 border border-red-100">
-                                                    Hapus
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="5" class="py-12 text-center text-gray-400">
-                                        <i class="fa-solid fa-folder-open text-4xl mb-3 text-gray-300"></i>
-                                        <p class="text-sm font-medium text-gray-500">Belum ada data mata kuliah.</p>
+                                <tr class="hover:bg-gray-50 matkul-row">
+                                    <td class="py-3 px-4 text-center text-gray-500 row-no"><?php echo $no++; ?></td>
+                                    <td class="py-3 px-4 text-gray-500 font-mono text-xs font-kodemk"><?php echo htmlspecialchars($row['kodemk']); ?></td>
+                                    <td class="py-3 px-4 text-gray-900 font-medium font-namamk"><?php echo htmlspecialchars($row['namamk']); ?></td>
+                                    <td class="py-3 px-4 text-center text-gray-500 font-sks"><?php echo htmlspecialchars($row['sks']); ?></td>
+                                    <td class="py-3 px-4 text-right">
+                                        <div class="inline-flex items-center gap-2">
+                                            <button type="button" data-kodemk="<?php echo htmlspecialchars($row['kodemk'], ENT_QUOTES); ?>" data-namamk="<?php echo htmlspecialchars($row['namamk'], ENT_QUOTES); ?>" data-sks="<?php echo htmlspecialchars($row['sks'], ENT_QUOTES); ?>" onclick="openEditModalFromButton(this)" class="px-3 py-1.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100">
+                                                Edit
+                                            </button>
+                                            <button type="button" data-kodemk="<?php echo htmlspecialchars($row['kodemk'], ENT_QUOTES); ?>" data-namamk="<?php echo htmlspecialchars($row['namamk'], ENT_QUOTES); ?>" onclick="openDeleteModalFromButton(this)" class="px-3 py-1.5 rounded-md text-xs font-medium bg-red-50 text-red-700 hover:bg-red-100 border border-red-100">
+                                                Hapus
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
+                            <?php endwhile; ?>
+                            <?php else: ?>
+                            <tr id="emptyRow">
+                                <td colspan="5" class="py-12 text-center text-gray-400">
+                                    <i class="fa-solid fa-folder-open text-4xl mb-3 text-gray-300"></i>
+                                    <p class="text-sm font-medium text-gray-500">
+                                        Belum ada data mata kuliah.
+                                    </p>
+                                </td>
+                            </tr>
                             <?php endif; ?>
+                            <tr id="noResultRow" class="hidden">
+                                <td colspan="5" class="py-12 text-center text-gray-400">
+                                    <i class="fa-solid fa-magnifying-glass text-4xl mb-3 text-gray-300"></i>
+                                    <p class="text-sm font-medium text-gray-500">
+                                        Mata kuliah tidak ditemukan.
+                                    </p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -337,7 +339,7 @@ if ($is_logged_in && $conn) {
             <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900">Tambah Mata Kuliah</h3>
-                    <p class="text-xs text-gray-500 mt-0.5">Buat data mata kuliah baru tanpa pindah halaman.</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Buat data mata kuliah baru.</p>
                 </div>
                 <button type="button" onclick="closeModal('addModal')" class="text-gray-400 hover:text-gray-600">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -345,7 +347,7 @@ if ($is_logged_in && $conn) {
             </div>
             <form method="POST" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Kode Mata Kuliah</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Kode MK</label>
                     <input type="text" name="kodemk" required class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
                 </div>
                 <div>
@@ -354,7 +356,7 @@ if ($is_logged_in && $conn) {
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">SKS</label>
-                    <input type="text" name="sks" required class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
+                    <input type="number" name="sks" required class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
                 </div>
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <button type="button" onclick="closeModal('addModal')" class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Batal</button>
@@ -369,7 +371,7 @@ if ($is_logged_in && $conn) {
             <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900">Edit Mata Kuliah</h3>
-                    <p class="text-xs text-gray-500 mt-0.5">Perbarui data mata kuliah di tempat yang sama.</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Perbarui detail mata kuliah di tempat.</p>
                 </div>
                 <button type="button" onclick="closeModal('editModal')" class="text-gray-400 hover:text-gray-600">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -377,7 +379,7 @@ if ($is_logged_in && $conn) {
             </div>
             <form method="POST" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">KM</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Kode MK</label>
                     <input type="text" id="edit_kodemk" name="kodemk" readonly class="w-full rounded-lg border border-gray-200 bg-gray-100 px-3 py-2.5 text-sm text-gray-600 focus:outline-none">
                 </div>
                 <div>
@@ -386,7 +388,7 @@ if ($is_logged_in && $conn) {
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">SKS</label>
-                    <input type="text" id="edit_sks" name="sks" required class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
+                    <input type="number" id="edit_sks" name="sks" required class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
                 </div>
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <button type="button" onclick="closeModal('editModal')" class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Batal</button>
@@ -401,7 +403,7 @@ if ($is_logged_in && $conn) {
             <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900">Hapus Mata Kuliah</h3>
-                    <p class="text-xs text-gray-500 mt-0.5">Konfirmasi sebelum data dihapus.</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Konfirmasi penghapusan data.</p>
                 </div>
                 <button type="button" onclick="closeModal('deleteModal')" class="text-gray-400 hover:text-gray-600">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -484,8 +486,41 @@ if ($is_logged_in && $conn) {
                 }
             });
         });
-    </script>
-    <?php require_once 'export-modal.php'; ?>
-</body>
 
+        document.getElementById('searchInput').addEventListener('input', function () {
+        const q = this.value.toLowerCase().trim();
+
+        const rows = document.querySelectorAll('#matkulTable tbody tr.matkul-row');
+        const noResultRow = document.getElementById('noResultRow');
+
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const kodemk = row.querySelector('.font-kodemk').textContent.toLowerCase();
+            const namamk = row.querySelector('.font-namamk').textContent.toLowerCase();
+            const sks = row.querySelector('.font-sks').textContent.toLowerCase();
+
+            if (
+                kodemk.includes(q) ||
+                namamk.includes(q) ||
+                sks.includes(q)
+            ) {
+                row.classList.remove('hidden');
+                visibleCount++;
+
+                row.querySelector('.row-no').textContent = visibleCount;
+            } else {
+                row.classList.add('hidden');
+            }
+        });
+
+        if (visibleCount === 0 && rows.length > 0) {
+            noResultRow.classList.remove('hidden');
+        } else {
+            noResultRow.classList.add('hidden');
+        }
+    });
+    </script>
+
+</body>
 </html>
