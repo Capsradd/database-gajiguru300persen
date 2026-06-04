@@ -273,7 +273,12 @@ if ($query) {
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h2 class="text-base font-semibold text-gray-900">Daftar Mata Kuliah</h2>
-                        <p class="text-xs text-gray-500">Data kode, nama, dan SKS dari database</p>
+                        <p class="text-xs text-gray-500">Data mata kuliah dari database</p>
+                    </div>
+                    <div class="flex gap-2 border border-gray-200 rounded-md overflow-hidden bg-white">
+                        <button type="button" onclick="openExportModal({table: 'tbl_matakuliah', cols: 'kodemk,namamatk,sks', filename: 'matkul_list'})" class="px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-r border-gray-200">
+                            <i class="fa-solid fa-file-export text-gray-400"></i> Export
+                        </button>
                     </div>
                 </div>
 
